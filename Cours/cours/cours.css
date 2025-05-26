@@ -1,0 +1,573 @@
+/* gestioncours.css - Style innovant et beau pour la gestion des cours */
+
+:root {
+    --primary-color: #3b82f6;
+    --secondary-color: #1e40af;
+    --accent-color: #60a5fa;
+    --text-primary: #1f2937;
+    --text-secondary: #4b5563;
+    --background-main: #f4f4f4;
+    --background-card: #ffffff;
+    --success-color: #10b981;
+    --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.1);
+    --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.1);
+    --border-radius: 12px;
+    --transition-speed: 0.3s;
+  }
+  
+  body {
+    font-family: 'Poppins', sans-serif;
+    background-color: var(--background-main);
+    color: var(--text-primary);
+    margin: 0;
+    padding: 0;
+  }
+  
+  .courses-container {
+    max-width: 1000px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+  }
+  
+  .page-title {
+    font-size: 2.5rem;
+    font-weight: 700;
+    color: var(--text-primary);
+    margin-bottom: 1.5rem;
+    position: relative;
+    display: inline-block;
+  }
+  
+  .page-title::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    bottom: -8px;
+    height: 4px;
+    width: 100px;
+    background: linear-gradient(to right, var(--primary-color), var(--accent-color));
+    border-radius: 2px;
+    transition: width var(--transition-speed);
+  }
+  
+  .page-title:hover::after {
+    width: 150px;
+  }
+  
+  .add-course-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.7rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: transform var(--transition-speed), background-color var(--transition-speed), box-shadow var(--transition-speed);
+    margin-bottom: 2rem;
+    display: inline-flex;
+    align-items: center;
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .add-course-button::before {
+    content: '+';
+    margin-right: 8px;
+    font-size: 1.2rem;
+    font-weight: 500;
+  }
+  
+  .add-course-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-md);
+  }
+  
+  .add-course-button:active {
+    transform: translateY(0);
+  }
+  
+  .success-message {
+    background-color: var(--success-color);
+    color: white;
+    padding: 1rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 1.5rem;
+    animation: fadeIn 0.5s ease-in-out;
+    position: relative;
+    box-shadow: var(--shadow-sm);
+    opacity: 1;
+    transition: opacity 0.5s ease-out;
+  }
+  
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(-10px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+  
+  .courses-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 2rem;
+  }
+  
+  .course-card-container {
+    height: 100%;
+    transition: transform var(--transition-speed);
+  }
+  
+  .course-card-container:hover {
+    transform: translateY(-5px);
+  }
+  
+  .course-card-link {
+    text-decoration: none;
+    color: inherit;
+    display: block;
+    height: 100%;
+  }
+  
+  .course-card {
+    background-color: var(--background-card);
+    border-radius: var(--border-radius);
+    padding: 1.5rem;
+    height: 100%;
+    box-shadow: var(--shadow-sm);
+    transition: box-shadow var(--transition-speed);
+    display: flex;
+    flex-direction: column;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .course-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, var(--primary-color), var(--accent-color));
+    border-radius: 2px 0 0 2px;
+  }
+  
+  .course-card:hover {
+    box-shadow: var(--shadow-lg);
+  }
+  
+  .course-title {
+    font-size: 1.5rem;
+    font-weight: 600;
+    margin: 0 0 1rem 0;
+    color: var(--text-primary);
+  }
+  
+  .course-description {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    line-height: 1.6;
+    flex-grow: 1;
+    margin-bottom: 1rem;
+  }
+  
+  .course-date {
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin: 0;
+    display: flex;
+    align-items: center;
+  }
+  
+  .course-date::before {
+    content: '📅';
+    margin-right: 0.5rem;
+  }
+  
+  /* Style pour le modal */
+  .modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    z-index: 1000;
+    overflow: auto;
+    animation: fadeInModal 0.3s ease-in-out;
+  }
+  
+  @keyframes fadeInModal {
+    from { opacity: 0; }
+    to { opacity: 1; }
+  }
+  
+  .modal-content {
+    background-color: var(--background-card);
+    margin: 5% auto;
+    padding: 2rem;
+    border-radius: var(--border-radius);
+    width: 80%;
+    max-width: 800px;
+    box-shadow: var(--shadow-lg);
+    position: relative;
+    animation: slideIn 0.3s ease-in-out;
+  }
+  
+  @keyframes slideIn {
+    from { transform: translateY(-50px); opacity: 0; }
+    to { transform: translateY(0); opacity: 1; }
+  }
+  
+  .close-button {
+    position: absolute;
+    right: 1.5rem;
+    top: 1.5rem;
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--text-secondary);
+    transition: color var(--transition-speed);
+    background: none;
+    border: none;
+  }
+  
+  .close-button:hover {
+    color: var(--text-primary);
+  }
+  
+  .modal-title {
+    font-size: 1.8rem;
+    font-weight: 600;
+    margin-bottom: 1.5rem;
+    padding-bottom: 0.75rem;
+    border-bottom: 2px solid var(--accent-color);
+    color: var(--text-primary);
+  }
+  
+  .form-group {
+    margin-bottom: 1.5rem;
+  }
+  
+  .form-label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 500;
+    color: var(--text-primary);
+  }
+  
+  .form-control {
+    width: 100%;
+    padding: 0.75rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    font-family: 'Poppins', sans-serif;
+    font-size: 1rem;
+    transition: border-color var(--transition-speed), box-shadow var(--transition-speed);
+  }
+  
+  .form-control:focus {
+    outline: none;
+    border-color: var(--accent-color);
+    box-shadow: 0 0 0 3px rgba(96, 165, 250, 0.2);
+  }
+  
+  textarea.form-control {
+    min-height: 150px;
+    resize: vertical;
+  }
+  
+  .submit-button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    border-radius: var(--border-radius);
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background-color var(--transition-speed), transform var(--transition-speed);
+    display: block;
+    width: 100%;
+  }
+  
+  .submit-button:hover {
+    background-color: var(--secondary-color);
+    transform: translateY(-2px);
+  }
+  
+  .submit-button:active {
+    transform: translateY(0);
+  }
+  
+  /* Style pour la section des fichiers existants */
+  .existing-files-section {
+    margin-top: 1.5rem;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 1.5rem;
+  }
+  
+  .existing-files-title {
+    font-size: 1.2rem;
+    font-weight: 500;
+    margin-bottom: 1rem;
+    color: var(--text-primary);
+  }
+  
+  .existing-files {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+    gap: 1rem;
+  }
+  
+  .file-item {
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    padding: 0.75rem;
+    text-align: center;
+    background-color: #f9fafb;
+    transition: transform var(--transition-speed), box-shadow var(--transition-speed);
+  }
+  
+  .file-item:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-sm);
+  }
+  
+  .file-image {
+    width: 100%;
+    height: 100px;
+    object-fit: cover;
+    border-radius: 4px;
+    margin-bottom: 0.5rem;
+  }
+  
+  .file-icon {
+    font-size: 2rem;
+    display: block;
+    margin-bottom: 0.5rem;
+  }
+  
+  .file-item a {
+    color: var(--text-secondary);
+    text-decoration: none;
+    font-size: 0.9rem;
+    display: block;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    transition: color var(--transition-speed);
+  }
+  
+  .file-item a:hover {
+    color: var(--primary-color);
+  }
+  
+  /* Responsive design */
+  @media (max-width: 768px) {
+    .page-title {
+      font-size: 2rem;
+    }
+    
+    .courses-list {
+      grid-template-columns: 1fr;
+    }
+    
+    .modal-content {
+      width: 95%;
+      padding: 1.5rem;
+    }
+    
+    .course-card {
+      padding: 1.25rem;
+    }
+    
+    .existing-files {
+      grid-template-columns: repeat(auto-fill, minmax(120px, 1fr));
+    }
+  }
+  
+  /* Dark mode support */
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --text-primary: #f3f4f6;
+      --text-secondary: #d1d5db;
+      --background-main: #111827;
+      --background-card: #1f2937;
+      --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.3);
+      --shadow-md: 0 4px 6px rgba(0, 0, 0, 0.3);
+      --shadow-lg: 0 10px 15px rgba(0, 0, 0, 0.3);
+    }
+    
+    .form-control {
+      background-color: #374151;
+      border-color: #4b5563;
+      color: #f3f4f6;
+    }
+    
+    .file-item {
+      background-color: #374151;
+      border-color: #4b5563;
+    }
+  }
+  .pagination-controls {
+    margin-top: 20px;
+    text-align: center;
+}
+.pagination-button {
+    margin: 0 5px;
+    padding: 6px 12px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    border-radius: 4px;
+    cursor: pointer;
+}
+.pagination-button:hover {
+    background-color: #0056b3;
+}
+
+/* Barre de recherche innovante */
+.search-container {
+  margin: 2rem auto;
+  position: relative;
+  max-width: 600px;
+  transition: all 0.3s ease;
+}
+
+#searchInput {
+  width: 100%;
+  padding: 15px 50px 15px 20px;
+  border-radius: 50px;
+  border: 2px solid #e0e0e0;
+  background-color: #f8f9fa;
+  font-size: 1rem;
+  color: #333;
+  transition: all 0.3s ease;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+}
+
+#searchInput:focus {
+  border-color: #4a6cf7;
+  box-shadow: 0 8px 20px rgba(74, 108, 247, 0.15);
+  outline: none;
+}
+
+.search-container::after {
+  content: '🔍';
+  position: absolute;
+  right: 20px;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 1.2rem;
+  pointer-events: none;
+  transition: all 0.3s ease;
+}
+
+.search-container:focus-within::after {
+  color: #4a6cf7;
+}
+
+/* Animation pour la recherche active */
+.search-container:focus-within {
+  transform: scale(1.02);
+}
+
+/* Badge de recherche active */
+.search-active-badge {
+  display: none;
+  position: absolute;
+  top: -10px;
+  right: -10px;
+  background-color: #4a6cf7;
+  color: white;
+  border-radius: 50%;
+  width: 24px;
+  height: 24px;
+  font-size: 12px;
+  align-items: center;
+  justify-content: center;
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(74, 108, 247, 0.7);
+  }
+  
+  70% {
+      transform: scale(1);
+      box-shadow: 0 0 0 10px rgba(74, 108, 247, 0);
+  }
+  
+  100% {
+      transform: scale(0.95);
+      box-shadow: 0 0 0 0 rgba(74, 108, 247, 0);
+  }
+}
+
+/* Style pour afficher le nombre de résultats */
+.search-results-counter {
+  position: absolute;
+  left: 20px;
+  top: calc(100% + 10px);
+  font-size: 0.9rem;
+  color: #666;
+  font-style: italic;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+/* Responsive design pour la barre de recherche */
+@media (max-width: 768px) {
+  .search-container {
+      max-width: 100%;
+  }
+}
+/* Pagination Controls - Updated Styling */
+.pagination-controls {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 2.5rem;
+  gap: 0.5rem;
+}
+
+.pagination-controls button {
+  background-color: var(--background-card);
+  color: var(--text-primary);
+  border: 1px solid #e5e7eb;
+  border-radius: var(--border-radius);
+  padding: 0.6rem 1rem;
+  font-size: 0.95rem;
+  font-weight: 500;
+  cursor: pointer;
+  transition: all var(--transition-speed);
+  box-shadow: var(--shadow-sm);
+}
+
+.pagination-controls button:hover {
+  background-color: var(--accent-color);
+  color: white;
+  transform: translateY(-2px);
+  box-shadow: var(--shadow-md);
+}
+
+.pagination-controls button.active {
+  background-color: var(--primary-color);
+  color: white;
+  border-color: var(--primary-color);
+}
+
+/* Dark mode support for pagination */
+@media (prefers-color-scheme: dark) {
+  .pagination-controls button {
+    background-color: #374151;
+    border-color: #4b5563;
+  }
+  
+  .pagination-controls button:hover {
+    background-color: var(--accent-color);
+  }
+}

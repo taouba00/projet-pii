@@ -1,0 +1,199 @@
+/* Modal/Popup Styles */
+.popup {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    backdrop-filter: blur(5px);
+    -webkit-backdrop-filter: blur(5px);
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    z-index: 1000;
+    opacity: 0;
+    visibility: hidden;
+    transition: all 0.3s ease;
+    padding: clamp(1rem, 5vh, 2.5rem);
+    overflow-y: auto;
+}
+
+.popup.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+.popup-content {
+    background: #ffffff;
+    padding: clamp(1.5rem, 5vw, 2.5rem);
+    border-radius: 16px;
+    width: min(90%, 600px);
+    margin: auto;
+    max-height: min(85vh, 800px);
+    overflow-y: auto;
+    box-shadow: 
+        0 10px 25px -5px rgba(0, 0, 0, 0.1),
+        0 10px 10px -5px rgba(0, 0, 0, 0.04);
+    position: relative;
+    transform: scale(0.95) translateY(-20px);
+    transition: transform 0.3s ease;
+}
+
+.popup.active .popup-content {
+    transform: scale(1) translateY(0);
+}
+
+.popup-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.popup-content::-webkit-scrollbar-track {
+    background: #f1f1f1;
+    border-radius: 4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb {
+    background: #c1c1c1;
+    border-radius: 4px;
+}
+
+.popup-content::-webkit-scrollbar-thumb:hover {
+    background: #a8a8a8;
+}
+
+/* Form styles inside modal */
+#editForm {
+    display: grid;
+    gap: 1.25rem;
+}
+
+#editForm .form-group {
+    display: grid;
+    gap: 0.5rem;
+}
+
+#editForm label {
+    color: var(--dark);
+    font-size: 0.9rem;
+    font-weight: 500;
+}
+
+#editForm input[type="text"],
+#editForm input[type="date"],
+#editForm select,
+#editForm textarea {
+    width: 100%;
+    padding: 0.75rem 1rem;
+    border: 1px solid rgba(0, 0, 0, 0.1);
+    border-radius: 8px;
+    background: #ffffff;
+    font-size: 0.95rem;
+    color: var(--dark);
+    transition: all 0.2s ease;
+}
+
+#editForm input[type="text"]:focus,
+#editForm input[type="date"]:focus,
+#editForm select:focus,
+#editForm textarea:focus {
+    outline: none;
+    border-color: var(--primary);
+    box-shadow: 0 0 0 3px rgba(108, 92, 231, 0.1);
+}
+
+#editForm textarea {
+    min-height: 120px;
+    max-height: 300px;
+    resize: vertical;
+}
+
+#editForm button[type="submit"] {
+    background: linear-gradient(135deg, var(--primary), var(--secondary));
+    color: white;
+    border: none;
+    padding: 0.875rem 1.5rem;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    width: 100%;
+    margin-top: 0.5rem;
+}
+
+#editForm button[type="submit"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 4px 12px rgba(108, 92, 231, 0.2);
+}
+
+#editForm button[type="submit"]:active {
+    transform: translateY(0);
+}
+
+/* Close button style */
+.popup-content .close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    width: 32px;
+    height: 32px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 50%;
+    border: none;
+    background: rgba(0, 0, 0, 0.05);
+    color: var(--dark);
+    font-size: 20px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+
+.popup-content .close:hover {
+    background: rgba(214, 48, 49, 0.1);
+    color: var(--danger);
+    transform: rotate(90deg);
+}
+
+/* Dark mode support */
+@media (prefers-color-scheme: dark) {
+    .popup-content {
+        background: #1f2937;
+        border: 1px solid rgba(255, 255, 255, 0.1);
+    }
+    
+    #editForm input[type="text"],
+    #editForm input[type="date"],
+    #editForm select,
+    #editForm textarea {
+        background: #111827;
+        color: #f9f9f9;
+        border-color: rgba(255, 255, 255, 0.1);
+    }
+    
+    #editForm input[type="text"]:focus,
+    #editForm input[type="date"]:focus,
+    #editForm select:focus,
+    #editForm textarea:focus {
+        border-color: var(--primary);
+        background: #1f2937;
+    }
+    
+    .popup-content .close {
+        background: rgba(255, 255, 255, 0.1);
+        color: #f9f9f9;
+    }
+}
+
+/* Mobile responsiveness */
+@media (max-width: 640px) {
+    .popup {
+        padding: 1rem;
+    }
+    
+    .popup-content {
+        padding: 1.25rem;
+        width: 95%;
+    }
+}
