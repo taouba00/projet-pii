@@ -5,10 +5,22 @@ if (!defined('SIDEBAR_INCLUDED')) {
     
     // Start output buffering if not already started
     if (ob_get_level() === 0) ob_start();
-    
-    // Start session if not already started
+      // Start session if not already started
     if (session_status() === PHP_SESSION_NONE) {
         session_start();
+    }
+
+    // Check if user is logged in
+    if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+        // Clear output buffer first
+        while (ob_get_level()) ob_end_clean();
+        
+        // Set error message for login page
+        $_SESSION['error_message'] = "Vous devez vous connecter pour accéder à cette page.";
+        
+        // Redirect to login page
+        header('Location: /freelance/login/login.php');
+        exit;
     }
 
     if (isset($_GET['logout'])) {

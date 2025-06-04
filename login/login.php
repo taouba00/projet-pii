@@ -1,8 +1,10 @@
 <?php
 session_start();
 $error_message = isset($_SESSION['login_error']) ? $_SESSION['login_error'] : null;
+$auth_error = isset($_SESSION['error_message']) ? $_SESSION['error_message'] : null;
 $session_data = print_r($_SESSION, true);
 unset($_SESSION['login_error']);
+unset($_SESSION['error_message']);
 ?>
 
 <!DOCTYPE html>
@@ -25,12 +27,16 @@ unset($_SESSION['login_error']);
     <div class="container d-flex justify-content-center align-items-center vh-100">
         <div class="card p-4 shadow" style="width: 100%; max-width: 400px;">
             <h3 class="text-center mb-4">Login</h3>
-            
-            <!-- Error message container -->
-            <?php if ($error_message): ?>
+              <!-- Error message container -->
+            <?php if ($error_message || $auth_error): ?>
             <div class="alert alert-danger" id="error-container">
                 <ul id="error-list">
-                    <li><?php echo htmlspecialchars($error_message); ?></li>
+                    <?php if ($error_message): ?>
+                        <li><?php echo htmlspecialchars($error_message); ?></li>
+                    <?php endif; ?>
+                    <?php if ($auth_error): ?>
+                        <li><?php echo htmlspecialchars($auth_error); ?></li>
+                    <?php endif; ?>
                 </ul>
             </div>
             <?php endif; ?>

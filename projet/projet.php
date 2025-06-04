@@ -17,10 +17,10 @@ while ($row = $result->fetch_assoc()) {
     <link rel="stylesheet" href="../composant/sidebar.css">
 </head>
 <body>
-    <?php include_once '../composant/sidebar.php'; ?>
-    <div class="posts-container">
+    <?php include_once '../composant/sidebar.php'; ?>    <div class="posts-container">
         <h1 class="page-title">Projet</h1>
-
+        
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'client'): ?>
         <div class="post-form">
             <h2>Créer un nouveau Projet</h2>
             <form id="createProjectForm">
@@ -36,6 +36,7 @@ while ($row = $result->fetch_assoc()) {
                 <button type="submit">Créer le Projet</button>
             </form>
         </div>
+        <?php endif; ?>
 
         <!-- Liste des projets -->
         <div class="posts-list" id="projects-container">

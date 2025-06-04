@@ -791,9 +791,12 @@ if (isset($_GET['project_id'])) {
         <div class="project-info">
             <h1 class="page-title">Propositions pour: <?= htmlspecialchars($project['name']) ?></h1>
         </div>
-        <?php else: ?>
-        <h1 class="page-title">Vos Propositions</h1>
-        <?php endif; ?>        <button type="button" class="show-form-button" onclick="toggleForm()">Faire une proposition</button>
+        <?php else: ?>        <h1 class="page-title">Vos Propositions</h1>
+        <?php endif; ?>       
+        
+        <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'freelancer'): ?>
+        <button type="button" class="show-form-button" onclick="toggleForm()">Faire une proposition</button>
+        <?php endif; ?>
 
         <div id="overlay" style="display:none; position:fixed; top:0; left:0; right:0; bottom:0; background:rgba(0,0,0,0.5); z-index:10;"></div>
 

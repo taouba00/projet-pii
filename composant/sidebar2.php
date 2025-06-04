@@ -1,4 +1,19 @@
 <?php
+// Start session if not already started
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+
+// Check if user is logged in
+if (!isset($_SESSION['user_id']) || empty($_SESSION['user_id'])) {
+    // Set error message for login page
+    $_SESSION['error_message'] = "Vous devez vous connecter pour accéder à cette page.";
+    
+    // Redirect to login page
+    header('Location: /freelance/login/login.php');
+    exit;
+}
+
 if (isset($_GET['logout'])) {
     // Unset all session variables
     $_SESSION = [];
