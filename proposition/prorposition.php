@@ -151,10 +151,10 @@ if (isset($_GET['project_id'])) {
             if (counter) {
                 counter.textContent = `${filteredPropositions.length} résultat(s) trouvé(s)`;
             }
-        }
-
-        function loadPropositions() {
+        }        function loadPropositions() {
             const project_id = <?php echo isset($_GET['project_id']) ? intval($_GET['project_id']) : 'null' ?>;
+            const userRole = '<?php echo isset($_SESSION['role']) ? $_SESSION['role'] : '' ?>';
+            
             fetch(`proposition_crud.php?project_id=${project_id}`, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
@@ -174,6 +174,17 @@ if (isset($_GET['project_id'])) {
                         card.dataset.budget = proposition.budget;
                         card.dataset.date_creation = proposition.date_creation;
                         card.dataset.date_fin = proposition.date_fin;
+                        
+                        // Generate action buttons based on user role
+                        let actionButtons = '';
+                        if (userRole === 'freelancer') {
+                            actionButtons = `
+                                <button onclick="handleEditClick(this)">Modifier</button>
+                                <button onclick="handleDeleteClick(this)">Supprimer</button>
+                            `;
+                        }
+                        actionButtons += `<button onclick="startChat(${proposition.author_id})">Chat</button>`;
+                        
                     card.innerHTML = `
                         <div class="proposition-contenu">${proposition.contenu}</div>
                         <div class="proposition-budget">${proposition.budget} TND</div>
@@ -185,9 +196,7 @@ if (isset($_GET['project_id'])) {
                             Créé le: ${new Date(proposition.created_at).toLocaleDateString()}
                         </div>
                         <div class="proposition-actions">
-                            <button onclick="handleEditClick(this)">Modifier</button>
-                            <button onclick="handleDeleteClick(this)">Supprimer</button>
-                            <button onclick="startChat(${proposition.author_id})">Chat</button>
+                            ${actionButtons}
                         </div>
                     `;
 

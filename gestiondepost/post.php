@@ -14,7 +14,7 @@ require_once '../login/db.php';
 <body>
 <?php include_once '../composant/sidebar.php'; ?>
 <div class="container mt-4">
-    <h2>Créer un nouveau post</h2>
+    <h2>Posts</h2>
 
     <?php if (isset($_GET['success'])): ?>
         <div class="alert alert-success">Post créé avec succès !</div>
@@ -22,6 +22,8 @@ require_once '../login/db.php';
         <div class="alert alert-danger">Erreur lors de la création du post.</div>
     <?php endif; ?>
 
+    <?php if (isset($_SESSION['role']) && $_SESSION['role'] == 'freelancer'): ?>
+    <h3>Créer un nouveau post</h3>
     <form id="postForm" enctype="multipart/form-data" method="POST" action="post_crud.php">
         <input type="hidden" id="author_id" name="author_id" value="<?php echo isset($_SESSION['user_id']) ? $_SESSION['user_id'] : ''; ?>">
         <input type="hidden" id="author_id" name="action" value="create">
@@ -42,6 +44,7 @@ require_once '../login/db.php';
 
         <button type="submit" class="btn btn-primary">Publier</button>
     </form>
+    <?php endif; ?>
 
     <div class="mt-4">
         <input type="text" id="searchInput" class="form-control" placeholder="Rechercher par titre...">
@@ -108,31 +111,31 @@ require_once '../login/db.php';
                 }
             })
             .catch(error => console.error('Error fetching posts:', error));
-        }
-
-        loadPosts();
+        }        loadPosts();
 
         const postForm = document.getElementById('postForm');
-        postForm.addEventListener('submit', function (e) {
-            e.preventDefault();
-            const formData = new FormData(postForm);
+        if (postForm) {
+            postForm.addEventListener('submit', function (e) {
+                e.preventDefault();
+                const formData = new FormData(postForm);
 
-            fetch('post_crud.php', {
-                method: 'POST',
-                body: formData
-            })
-            .then(response => response.json())
-            .then(data => {
-                if (data.success) {
-                    alert('Post created successfully!');
-                    loadPosts();
-                    postForm.reset();
-                } else {
-                    alert('Error creating post: ' + (data.error || 'Unknown error'));
-                }
-            })
-            .catch(error => console.error('Error creating post:', error));
-        });
+                fetch('post_crud.php', {
+                    method: 'POST',
+                    body: formData
+                })
+                .then(response => response.json())
+                .then(data => {
+                    if (data.success) {
+                        alert('Post created successfully!');
+                        loadPosts();
+                        postForm.reset();
+                    } else {
+                        alert('Error creating post: ' + (data.error || 'Unknown error'));
+                    }
+                })
+                .catch(error => console.error('Error creating post:', error));
+            });
+        }
     });
 </script>
 </body>
